@@ -6,8 +6,7 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box = "ubuntu/xenial64"
   config.vm.hostname = "oracle"
 
   # share this project under /home/vagrant/vagrant-ubuntu-oracle-xe
@@ -23,13 +22,20 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id,
                   "--name", "oracle",
                   # Oracle claims to need 512MB of memory available minimum
-                  "--memory", "512",
+                  "--memory", "2048",
                   # Enable DNS behind NAT
                   "--natdnshostresolver1", "on"]
-  end
+    end
+
+  # Prevent TTY errors (copied from laravel/homestead: "homestead.rb" file)... By default this is "bash -l".
+  # NOTE: This is an ugly hack...
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  # Install puppet
+  config.vm.provision :shell, :inline => "export DEBIAN_FRONTEND=noninteractive; apt-get update && apt-get install -y puppet"
 
   # This is just an example, adjust as needed
-  config.vm.provision :shell, :inline => "echo \"America/New_York\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+  config.vm.provision :shell, :inline => "echo \"Europe/Paris\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
   config.vbguest.auto_update = true
 

@@ -1,6 +1,6 @@
-# Oracle XE 11g on Ubuntu 12.04 using Vagrant
+# Oracle XE 11g on Ubuntu 16.04 using Vagrant
 
-This project enables you to install Oracle 11g XE in a virtual machine running Ubuntu 12.04, using
+This project enables you to install Oracle 11g XE in a virtual machine running Ubuntu 16.04, using
 [Vagrant] and [Puppet].
 
 ## Acknowledgements
